@@ -44,7 +44,7 @@ Prešiel som štyri kritériá: Tailwind, sémantické HTML, Alpine.js, animáci
 
 **Tailwind** bol pokrytý dobre — takmer nič nebolo riešené custom CSS okrem `card-animate` keyframe, čo je opodstatnené.
 
-**Sémantické HTML** malo medzery. Filter buttony nemali žiadnu skupinovú rolu, search input nemal `aria-label`, dekoratívne SVG nemalo `aria-hidden`. Toto som doplnil: `role="group"` + `aria-label` na wrapper buttonov, `:aria-pressed` na každý button (screen readery takto vedia, ktorý filter je aktívny), `type="search"` a `aria-label` na input, `aria-hidden="true"` na SVG ikonku.
+**Sémantické HTML** malo medzery. Filter buttony nemali žiadnu skupinovú rolu, search input nemal `aria-label`, dekoratívne SVG nemalo `aria-hidden`. Toto som doplnil: `role="group"` + `aria-label` na wrapper buttonov, `:aria-pressed` na každý button (screen readery takto vedia, ktorý filter je aktívny), `aria-label` na input, `aria-hidden="true"` na SVG ikonku.
 
 **Alpine.js** bol funkčný, ale chýbal `x-cloak`. Bez neho je obsah sekcie viditeľný na zlomok sekundy pred tým, než Alpine inicializuje — používateľ uvidí surový HTML s `x-text` šablónami. Oprava je dvojkroková: pridať `x-cloak` atribút na element a `[x-cloak] { display: none !important }` do CSS.
 
@@ -62,7 +62,13 @@ Tu prišiel nečakaný problém. Paragraf mal Tailwind triedu `opacity-60`, ale 
 
 Toto bola jediná časť, kde som musel zastaviť a premyslieť dôsledok `fill-mode: both` — nie je intuitívne, že animácia môže "prebiť" statickú CSS triedu po svojom skončení.
 
-### 4. Upratanie
+### 4. Search input — drobné problémy
+
+**`transition-all duration-300`** na inpute animovalo všetky CSS vlastnosti. Pri inicializácii Alpine (keď `x-cloak` odhalí sekciu) sa niektoré vlastnosti zmenili a `transition-all` ich viditeľne preanimovalo. Riešenie: odstrániť transition z inputu úplne — focus efekt (border + ring) nastane okamžite, čo je pre input prirodzenejšie.
+
+**SVG ikonka lupy** nemala explicitné `width`/`height` atribúty — len Tailwind triedy `w-5 h-5`. Tailwind triedy sa aplikujú až po načítaní CSS, takže pri prvom renderi mal prehliadač SVG bez rozmerov a krátko ho zobrazil v nesprávnej veľkosti. Oprava: pridať `width="20" height="20"` priamo na element.
+
+### 5. Upratanie
 
 `counter.js` bol súčasťou Vite default šablóny, nikde sa nepoužíval, vymazal som ho.
 
