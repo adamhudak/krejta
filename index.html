@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Portfolio</title>
+  </head>
+  <body class="bg-[#FAF7F2]">
+
+    <section class="py-20 bg-[#FAF7F2]" x-data="portfolio" x-cloak>
+      <div class="max-w-[1280px] mx-auto px-3 xl:px-0">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+          <h2 class="font-playfair text-4xl md:text-5xl leading-[48px] font-bold text-[#1A1614] mb-4 animate-fade-down">
+            Our Portfolio
+          </h2>
+          <p class="font-manrope text-lg leading-7 text-[#1A1614] max-w-[672px] mx-auto animate-fade-down-delay">
+            Explore our diverse collection of projects across web design, branding, and marketing campaigns
+          </p>
+        </header>
+
+        <!-- Filter bar -->
+        <div class="bg-white rounded-2xl border border-[#1A1614]/12 p-6 flex flex-wrap items-center justify-between gap-4 mb-8 md:mb-12">
+
+          <!-- Filter buttons -->
+          <div class="flex items-center gap-2.5 flex-wrap" role="group" aria-label="Filter by category">
+            <template x-for="btn in filterButtons" :key="btn.value">
+              <button
+                @click="setFilter(btn.value)"
+                :aria-pressed="filter === btn.value"
+                :class="filter === btn.value
+                  ? 'bg-[#8B2635] text-[#FAF7F2] border-[#8B2635] '
+                  : 'bg-[#FAF7F2] text-[#1A1614] opacity-70 border-[#1A1614]/12 hover:border-[#1A1614]/30'"
+                class="font-manrope text-base font-medium px-5 py-2.5 rounded-full border transition-all duration-300 cursor-pointer"
+                x-text="btn.label"
+              ></button>
+            </template>
+          </div>
+
+          <!-- Search -->
+          <div class="relative">
+            <svg
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1A1614]/40 pointer-events-none"
+              aria-hidden="true"
+              viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"
+            >
+              <circle cx="8.5" cy="8.5" r="5"/>
+              <path d="m13 13 3.5 3.5" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="search"
+              placeholder="Search projects..."
+              aria-label="Search projects"
+              x-model="search"
+              class="w-full font-manrope text-sm md:text-base text-[#1A1614] placeholder:text-[#1A1614]/40 bg-[#FAF7F2] border border-[#1A1614]/12 rounded-full pl-11 pr-5 py-3 w-[280px] outline-none focus:border-[#8B2635]/50 focus:ring-2 focus:ring-[#8B2635]/10 transition-all duration-300"
+            />
+          </div>
+        </div>
+
+        <!-- Project grid -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 transition-opacity duration-[180ms]"
+          :class="transitioning ? 'opacity-0' : 'opacity-100'"
+        >
+          <template x-for="(project, index) in filteredProjects" :key="project.id + '-' + filter">
+            <article
+              class="bg-white rounded-2xl border border-[#1A1614]/12 overflow-hidden group cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-500 card-animate"
+              :style="`animation-delay: ${index * 70}ms`"
+            >
+              <!-- Placeholder image with gradient -->
+              <div
+                class="relative h-[200px] md:h-[302px] overflow-hidden"
+                style="background-color: #F0EAE2; background-image: linear-gradient(135deg, rgba(139,38,53,0.22) 0%, rgba(212,165,116,0.28) 50%, rgba(45,42,39,0.18) 100%);"
+              >
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-20 h-20 bg-[#ddbcb5] rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                    <img src="src/assets/default-icon.svg" class="w-16 h-16" alt="">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card info -->
+              <div class="p-4 md:p-6">
+                <span
+                  class="inline-flex items-center font-manrope text-xs text-[#1A1614] bg-[#D4A574]/30 rounded-full px-3 py-1.5 mb-3"
+                  x-text="project.tag"
+                ></span>
+
+                <h3
+                  class="font-playfair text-xl leading-7 font-semibold text-[#1A1614] mb-3"
+                  x-text="project.title"
+                ></h3>
+
+                <a href="#" class="inline-flex items-center gap-1.5 font-manrope text-sm text-[#1A1614] opacity-60 group/link">
+                  <span>View Project</span>
+                  <svg
+                    class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1"
+                    viewBox="0 0 16 16" fill="none"
+                  >
+                    <path d="M6.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </div>
+            </article>
+          </template>
+
+          <!-- Empty state -->
+          <div
+            class="col-span-full py-16 text-center"
+            x-show="filteredProjects.length === 0"
+            x-transition
+          >
+            <p class="font-manrope text-lg text-[#1A1614]/40">No projects found.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

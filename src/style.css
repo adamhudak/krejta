@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+[x-cloak] { display: none !important; }
+
+@theme {
+  --font-playfair: 'Playfair Display', serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --color-cream: #FAF7F2;
+  --color-dark: #1A1614;
+  --color-burgundy: #8B2635;
+  --color-tan: #D4A574;
+
+  --animate-fade-down: fade-down 0.55s ease-out both;
+  --animate-fade-down-delay: fade-down-soft 0.55s 0.12s ease-out both;
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-down-soft {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-animate {
+  animation: card-in 0.45s ease-out both;
+}
